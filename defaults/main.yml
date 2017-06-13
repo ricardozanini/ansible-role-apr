@@ -7,7 +7,7 @@ apr_tar_archive: "{{ apr_name }}.tar.gz"
 
 
 apr_util_version: "1.5.4"
-apr_util_name: apr-utl-{{ apr_util_version }}
+apr_util_name: apr-util-{{ apr_util_version }}
 apr_util_tar_archive: "{{ apr_util_name }}.tar.gz"
 
 apr_version_specific:
