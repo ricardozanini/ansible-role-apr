@@ -5,12 +5,18 @@
   with_items:
     - tar
     - wget
-    - openssl-devel
+    - "{{ operating_system_specific[ansible_os_family].openssl }}"
 
 - name: Check If Already Installed
   stat:
     path: "/usr/local/apr"
   register: __apr_exists
+
+- name: Create Temporary Storage Location
+  when: not __apr_exists.stat.exists
+  file:
+    state: directory
+    path: "{{ apr_tmp_storage }}"
 
 - name: Download APR
   when: not __apr_exists.stat.exists
