@@ -24,3 +24,6 @@ operating_system_specific:
     openssl: libssl-dev
   RedHat:
     openssl: openssl-devel
+
+
+apr_debug: false

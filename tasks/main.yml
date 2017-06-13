@@ -37,21 +37,34 @@
 
 - name: Configure APR for Linux
   when: not __apr_exists.stat.exists
+  register: __apr_configure
   command: >
     ./configure
     chdir={{ apr_tmp_storage }}/{{ apr_name}}
 
+- debug: var=__apr_configure.stdout_lines
+  when: apr_debug
+
 - name: Make APR
   when: not __apr_exists.stat.exists
+  register: __apr_make
   make:
     chdir: "{{ apr_tmp_storage }}/{{ apr_name }}"
 
+- debug: var=__apr_make.stdout_lines
+  when: apr_debug
+
+
 - name: Make Install APR
   when: not __apr_exists.stat.exists
+  register: __apr_make_install
   make:
     chdir: "{{ apr_tmp_storage }}/{{ apr_name }}"
     target: install
   become: yes
+
+- debug: var=__apr_make_install.stdout_lines
+  when: apr_debug
 
 - name: Download APR Utils
   when: not __apr_exists.stat.exists
@@ -70,18 +83,30 @@
 
 - name: Configure APR for Linux
   when: not __apr_exists.stat.exists
+  register: __apr_utils_configure
   command: >
     ./configure --with-apr=/usr/local/apr
     chdir={{ apr_tmp_storage }}/{{ apr_util_name}}
 
+- debug: var=__apr_utils_configure.stdout_lines
+  when: apr_debug
+
 - name: Make APR
   when: not __apr_exists.stat.exists
+  register: __apr_utils_make
   make:
     chdir: "{{ apr_tmp_storage }}/{{ apr_util_name }}"
 
+- debug: var=__apr_utils_make.stdout_lines
+  when: apr_debug
+
 - name: Make Install APR
   when: not __apr_exists.stat.exists
+  register: __apr_utils_make_install
   make:
     chdir: "{{ apr_tmp_storage }}/{{ apr_util_name }}"
     target: install
   become: yes
+
+- debug: var=__apr_utils_make_install.stdout_lines
+  when: apr_debug
