@@ -5,6 +5,8 @@
   with_items:
     - tar
     - wget
+    - gcc
+    - make
     - "{{ operating_system_specific[ansible_os_family].openssl }}"
 
 - name: Check If Already Installed
