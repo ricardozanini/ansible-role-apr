@@ -40,6 +40,7 @@
 
 - name: Make Install APR
   when: not __apr_exists.stat.exists
+  make:
     chdir: "{{ apr_tmp_storage }}/{{ apr_name }}"
     target: install
   become: yes
@@ -72,6 +73,7 @@
 
 - name: Make Install APR
   when: not __apr_exists.stat.exists
+  make:
     chdir: "{{ apr_tmp_storage }}/{{ apr_util_name }}"
     target: install
   become: yes
