@@ -12,6 +12,7 @@
 - name: Check If Already Installed
   register: __apr_version_if_exists
   ignore_errors: yes
+  changed_when: false
   command: /usr/local/apr/bin/apr-1-config --version
 
 - name: Set __apr_installed if already configured
