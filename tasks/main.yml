@@ -1,0 +1,77 @@
+- name: Insure Required Packages Are Installed
+  package:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - tar
+    - wget
+    - openssl-devel
+
+- name: Check If Already Installed
+  stat:
+    path: "/usr/local/apr"
+  register: __apr_exists
+
+- name: Download APR
+  when: not __apr_exists.stat.exists
+  get_url:
+    dest: "{{ apr_tmp_storage }}"
+    url: http://mirror.nexcess.net/apache//apr/{{ apr_tar_archive }}
+    checksum: "{{ apr_version_specific[apr_version].checksum }}"
+
+- name: Unpack APR
+  when: not __apr_exists.stat.exists
+  unarchive:
+    remote_src: yes
+    src: "{{ apr_tmp_storage }}/{{ apr_tar_archive }}"
+    dest: "{{ apr_tmp_storage }}"
+    keep_newer: yes
+
+- name: Configure APR for Linux
+  when: not __apr_exists.stat.exists
+  command: >
+    configure
+    chdir={{ apr_tmp_storage }}/{{ apr_name}}
+
+- name: Make APR
+  when: not __apr_exists.stat.exists
+  make:
+    chdir: "{{ apr_tmp_storage }}/{{ apr_name }}"
+
+- name: Make Install APR
+  when: not __apr_exists.stat.exists
+    chdir: "{{ apr_tmp_storage }}/{{ apr_name }}"
+    target: install
+  become: yes
+
+- name: Download APR Utils
+  when: not __apr_exists.stat.exists
+  get_url:
+    dest: "{{ apr_tmp_storage }}"
+    url: http://mirror.nexcess.net/apache//apr/{{ apr_util_tar_archive }}
+    checksum: "{{ apr_util_version_specific[apr_util_version].checksum }}"
+
+- name: Unpack APR Utils
+  when: not __apr_exists.stat.exists
+  unarchive:
+    remote_src: yes
+    src: "{{ apr_tmp_storage}}/{{ apr_util_tar_archive}}"
+    dest: "{{ apr_tmp_storage }}"
+    keep_newer: yes
+
+- name: Configure APR for Linux
+  when: not __apr_exists.stat.exists
+  command: >
+    configure --with-apr=/usr/local/apr
+    chdir={{ apr_tmp_storage }}/{{ apr_util_name}}
+
+- name: Make APR
+  when: not __apr_exists.stat.exists
+  make:
+    chdir: "{{ apr_tmp_storage }}/{{ apr_util_name }}"
+
+- name: Make Install APR
+  when: not __apr_exists.stat.exists
+    chdir: "{{ apr_tmp_storage }}/{{ apr_util_name }}"
+    target: install
+  become: yes
