@@ -26,3 +26,6 @@ galaxy_info:
     - name: EL
       versions:
         - 7
+
+dependencies:
+  - ChristopherDavenport.openssl

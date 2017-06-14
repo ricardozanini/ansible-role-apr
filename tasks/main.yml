@@ -7,7 +7,6 @@
     - wget
     - gcc
     - make
-    - "{{ operating_system_specific[ansible_os_family].openssl }}"
 
 - name: Check If Already Installed
   register: __apr_version_if_exists

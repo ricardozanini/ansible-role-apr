@@ -19,11 +19,4 @@ apr_util_version_specific:
     checksum: md5:866825c04da827c6e5f53daff5569f42
 
 
-operating_system_specific:
-  Debian:
-    openssl: libssl-dev
-  RedHat:
-    openssl: openssl-devel
-
-
 apr_debug: false
