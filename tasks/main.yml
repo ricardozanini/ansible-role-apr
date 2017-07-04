@@ -98,7 +98,9 @@
   when: not __apr_installed
   register: __apr_utils_configure
   command: >
-    ./configure --with-apr={{ apr_install_location }}
+    ./configure
+    --with-apr={{ apr_install_location }}
+    --with-openssl={{ openssl_install_location }}
     chdir={{ apr_tmp_storage }}/{{ apr_util_name}}
 
 - name: Deubg Output of Configure APR Utils
