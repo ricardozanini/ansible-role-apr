@@ -99,6 +99,7 @@
   register: __apr_utils_configure
   command: >
     ./configure
+    --prefix={{ apr_install_location }}
     --with-apr={{ apr_install_location }}
     --with-openssl={{ openssl_install_location }}
     chdir={{ apr_tmp_storage }}/{{ apr_util_name}}
