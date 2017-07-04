@@ -12,7 +12,7 @@
   register: __apr_version_if_exists
   ignore_errors: yes
   changed_when: false
-  command: /usr/local/apr/bin/apr-1-config --version
+  command: "{{ apr_install_location }}/bin/apr-1-config --version"
 
 - name: Set __apr_installed if already configured
   set_fact:
@@ -44,6 +44,7 @@
   register: __apr_configure
   command: >
     ./configure
+    --prefix={{ apr_install_location }}
     chdir={{ apr_tmp_storage }}/{{ apr_name}}
 
 - name: Debug Output of APR Configure
@@ -97,7 +98,7 @@
   when: not __apr_installed
   register: __apr_utils_configure
   command: >
-    ./configure --with-apr=/usr/local/apr
+    ./configure --with-apr={{ apr_install_location }}
     chdir={{ apr_tmp_storage }}/{{ apr_util_name}}
 
 - name: Deubg Output of Configure APR Utils
