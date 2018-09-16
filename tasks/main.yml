@@ -28,7 +28,7 @@
   when: not __apr_installed
   get_url:
     dest: "{{ apr_tmp_storage }}"
-    url: http://mirror.nexcess.net/apache//apr/{{ apr_tar_archive }}
+    url: "{{ apr_mirror_url }}/{{ apr_tar_archive }}"
     checksum: "{{ apr_version_specific[apr_version].checksum }}"
 
 - name: Unpack APR
@@ -83,7 +83,7 @@
   when: not __apr_installed
   get_url:
     dest: "{{ apr_tmp_storage }}"
-    url: http://mirror.nexcess.net/apache//apr/{{ apr_util_tar_archive }}
+    url: "{{ apr_mirror_url }}/{{ apr_util_tar_archive }}"
     checksum: "{{ apr_util_version_specific[apr_util_version].checksum }}"
 
 - name: Unpack APR Utils
